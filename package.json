@@ -1,0 +1,27 @@
+{
+  "name": "ScrapeYourData",
+  "version": "1.0.0",
+  "description": "**ScrapeYourData**",
+  "main": "jquery-3.5.1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Julfyy/ScrapeYourData.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Julfyy/ScrapeYourData/issues"
+  },
+  "homepage": "https://github.com/Julfyy/ScrapeYourData#readme",
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1"
+  }
+}

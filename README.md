@@ -13,6 +13,7 @@ Core features:
  - Pictures downloading or getting the link
  - Auto pagination for automatic switching between pages
  - Processing: splitting to columns, using of regular expressions
+ - And other upcoming features...
  
 Also will be implemented:
  - a personal account to save your personal recipies
