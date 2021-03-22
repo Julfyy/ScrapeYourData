@@ -1,8 +1,8 @@
 {
-  "name": "ScrapeYourData",
+  "name": "scrapeyourdata",
   "version": "1.0.0",
   "description": "**ScrapeYourData**",
-  "main": "jquery-3.5.1.js",
+  "main": "popup.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,18 +10,18 @@
     "type": "git",
     "url": "git+https://github.com/Julfyy/ScrapeYourData.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Bohdan Shybetskyi",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Julfyy/ScrapeYourData/issues"
   },
   "homepage": "https://github.com/Julfyy/ScrapeYourData#readme",
+  "dependencies": {
+    "eslint-plugin-jsx-a11y": "^6.4.1"
+  },
   "devDependencies": {
     "eslint": "^7.22.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1"
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }
