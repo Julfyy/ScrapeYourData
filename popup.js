@@ -1,8 +1,9 @@
 /* global chrome */
+/*
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-    const clickButton = document.getElementById('click');
+    const clickButton = document.querySelector('#click');
     clickButton.addEventListener(
       'click',
       function () {
@@ -15,3 +16,5 @@ document.addEventListener(
   },
   false
 );
+
+*/
