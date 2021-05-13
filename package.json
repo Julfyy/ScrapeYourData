@@ -4,7 +4,11 @@
   "description": "**ScrapeYourData**",
   "main": "popup/popup.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "",
+    "lint:fix": "",
+    "check-format": "",
+    "format": ""
   },
   "repository": {
     "type": "git",
@@ -27,8 +31,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo \"[Husky] pre-commit\"",
-      "pre-push": "echo \"[Husky] pre-push\""
+      "pre-commit": "echo \"test\"",
+      "pre-push": ""
     }
   }
 }
