@@ -5,7 +5,7 @@
   "main": "popup/popup.js",
   "scripts": {
     "eslint": "./node_modules/.bin/eslint",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "repository": {
     "type": "git",
