@@ -4,10 +4,7 @@
   "description": "**ScrapeYourData**",
   "main": "popup/popup.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "",
-    "lint:fix": "",
-    "check-format": "",
+    "eslint": "./node_modules/.bin/eslint",
     "format": ""
   },
   "repository": {
@@ -26,9 +23,12 @@
   "devDependencies": {
     "eslint": "^7.22.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
     "husky": "^4.2.3",
-    "lint-staged": "^11.0.0"
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.0"
   },
   "husky": {
     "hooks": {
