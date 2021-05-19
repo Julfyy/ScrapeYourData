@@ -2,7 +2,7 @@
   "name": "scrapeyourdata",
   "version": "1.0.0",
   "description": "**ScrapeYourData**",
-  "main": "popup/popup.js",
+  "main": "index.js",
   "scripts": {
     "eslint": "./node_modules/.bin/eslint",
     "test": "jest --passWithNoTests"
@@ -19,11 +19,17 @@
   "homepage": "https://github.com/Julfyy/ScrapeYourData#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cheerio": "*",
     "cors": "^2.8.5",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "exceljs": "^4.2.1",
     "express": "^4.17.1",
-    "jest": "^26.6.3"
+    "got": "^11.8.2",
+    "himalaya": "^1.1.0",
+    "jest": "^26.6.3",
+    "puppeteer": "^9.1.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
   },
   "devDependencies": {
     "eslint": "^7.22.0",
@@ -32,8 +38,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^4.2.3",
-    "lint-staged": "^11.0.0",
-    "prettier": "^2.3.0"
+    "lint-staged": "^11.0.0"
   },
   "husky": {
     "hooks": {
