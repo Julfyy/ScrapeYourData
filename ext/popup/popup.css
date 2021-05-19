@@ -23,11 +23,11 @@ body {
   font-size: 16px;
   background-color: white;
   color: black;
-  border: 2px solid #555555; /* Green */
+  border: 2px solid #555555;
   transition-duration: 0.4s;
 }
 
 .btn-save:hover {
-  background-color: #555555; /* Green */
+  background-color: #555555;
   color: white;
 }
