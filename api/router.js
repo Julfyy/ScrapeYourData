@@ -1,25 +1,30 @@
 const express = require('express');
 const router = express.Router();
 
-const Pyszne = require('./patterns/Pyszne.js');
+const Glovo = require('./patterns/Glovo.js');
 
 const urls = [
-    'www.example.com',
-    'www.pyszne.pl/menu'
-  ];
+    'https://glovoapp.com/'
+];
 
+const userUrls = new Map();
+  
 router.get('/', (_, res) => {
     res.send('Server works');
 });
 
 router.post('/isAvailable', (req, res) => {
     const url = req.body.url;
+    const requestId = new Date().getTime();
+    
     for (const availableUrl of urls) {
         if (url.includes(availableUrl)) {
             res.status(200).json({
                 isAvailable: true,
-                id: urls.indexOf(availableUrl)
+                id: requestId
             });
+
+            userUrls.set(requestId, url);
             return;
         }
     }
@@ -29,11 +34,16 @@ router.post('/isAvailable', (req, res) => {
 
 router.get('/scrape/xlsx/:id', (req, res) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader("Content-Disposition", "attachment; filename=" + "Report.xlsx");
-    Pyszne(urls[req.params.id]).xlsx.write(res)
-        .then(function (data) {
-            res.end();
-        });
+    res.setHeader("Content-Disposition", "attachment; filename=" + "Data.xlsx");
+
+    const key = Number(req.params.id)
+    Glovo(userUrls.get(key))
+        .then(file => {
+            file.xlsx.write(res)
+                .then(function (_) {
+                    res.end();
+                });
+        })
 });
 
 module.exports = router;
