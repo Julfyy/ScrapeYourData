@@ -1,5 +1,4 @@
 const api = {
-  urlIsAvailable: "http://localhost:3000/isAvailable",
   urlXlsx: "http://localhost:3000/scrape/xlsx",
   urlTxt: "http://localhost:3000/scrape/txt"
 }
@@ -12,37 +11,62 @@ window.addEventListener('load', async () => {
   const btnTxt = document.querySelector("#btn-txt");
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  let websiteId = null;
+  let userId = null;
 
-  fetch(api.urlIsAvailable, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      url: tab.url
-    })
-  }).then(response => {
-    if (response.ok) {
-      response.json().then(json => {
-        websiteId = json.id;
-        updateUi(json.isAvailable);
-      });
-    } else {
-      updateUi(false);
-    }
+  // Get unique user id
+  chrome.identity.getProfileUserInfo(userInfo => {
+    userId = userInfo.id;
   });
 
-  const updateUi = (isAvailable) => {
-    if (isAvailable) {
-      icAccessebility.src = "../img/yes.svg";
-      txtAccessebility.textContent = "Parsed data is ready to be saved!";
-      btnExcel.href = `${api.urlXlsx}/${websiteId}`;
-      btnTxt.href = `${api.urlTxt}/${websiteId}`;
+  const downloadFile = (view) => {
+    updateUi('loading');
+
+    // Configure url
+    let url = "";
+    if (view.srcElement.id == 'btn-txt') {
+      url = api.urlTxt;
     } else {
+      url = api.urlXlsx;
+    }
+    
+    // Make request
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId,
+        url: tab.url
+      })
+    })
+      .then(res => res.blob())
+      .then(blob => {
+        // Download file
+        var file = window.URL.createObjectURL(blob);
+        window.location.assign(file);
+        updateUi(200)
+      })
+      .catch(e => {
+        console.error(e)
+        updateUi(400)
+      });
+  }
+
+  const updateUi = (status) => {
+    if (status === 200) {
+      icAccessebility.src = "../img/yes.svg";
+      txtAccessebility.textContent = "Parsed data is ready!";
+    } else if (status === 400) {
       icAccessebility.src = "../img/no.svg";
       txtAccessebility.textContent = "This website is not parcelable yet.";
       toolsPanel.style.display = 'none';
+    } else {
+      icAccessebility.src = "../img/loading.gif";
+      txtAccessebility.textContent = "Wait for file to be downloaded...";
     }
   }
+
+  btnTxt.addEventListener('click', downloadFile)
+  btnExcel.addEventListener('click', downloadFile)
 });

@@ -12,5 +12,5 @@
     "default_icon": "img/icon.png"
   },
 
-  "permissions": ["storage", "activeTab", "scripting"]
+  "permissions": ["storage", "activeTab", "scripting", "identity", "identity.email"]
 }
