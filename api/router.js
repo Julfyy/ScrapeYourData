@@ -4,25 +4,20 @@ const Excel = require('exceljs');
 
 const Glovo = require('./patterns/Glovo.js');
 
-const urls = [
-    'https://glovoapp.com/'
-];
-
 const isAvailable = function(req, res, next) {
     const url = req.body.url;
-    next();
     
-    // if (url.includes('glovo')) {
-    //     next();
-    // } else {
-    //     res.status(400).json({ status: 400, message: "The website is not parcable." });
-    // }
+    if (url.includes('glovo')) {
+        next();
+    } else {
+        res.status(400).json({ status: 400, message: "The website is not parcable." });
+    }
 }
 
 router.use(isAvailable);
   
 router.get('/', (_, res) => {
-    res.send('Server works');
+  res.send('Server works');
 });
 
 router.post('/scrape/xlsx', (req, res) => {
