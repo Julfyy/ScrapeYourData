@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const Excel = require('exceljs');
 
 const getData = async (url) => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto(url);
 
@@ -65,3 +65,74 @@ module.exports = async (url) => {
 
   return workbook;
 };
+// const puppeteer = require('puppeteer');
+// const Excel = require('exceljs');
+
+// const getData = async (request) => {
+//     const url = request.url;
+//     const browser = await puppeteer.launch({ headless: false });
+//     const page = await browser.newPage();
+//     console.log(url);
+//     await page.goto(url);
+
+//     const data = await page.evaluate((selectors) => {
+//         const map = new Map();
+
+//         for (let selector of selectors) {
+//             const elements = document.querySelectorAll("h4.title");
+//             let content = [];
+
+//             console.log(selector.tag + " -- " + selector.title + " --- " + elements.length)
+//             for (let i = 0; i < elements.length; i++) {
+//                 console.error(elem.innerHTML)
+//                 content.push(elements[i].innerHTML === undefined ? '' : elements[i].innerHTML);
+//             }
+
+//             map.set(selector.title, content);
+//         }
+
+//         console.log(map)
+
+//         return map;
+//     }, request.selectors);
+
+//     console.log(data);
+//     return data;
+// };
+
+// module.exports = async (request) => {
+//     const data = await getData(request);
+
+//     var workbook = new Excel.Workbook();
+
+//     workbook.creator = 'Me';
+//     workbook.lastModifiedBy = 'Her';
+//     workbook.created = new Date();
+//     workbook.modified = new Date();
+//     workbook.lastPrinted = new Date();
+//     workbook.properties.date1904 = true;
+
+//     workbook.views = [
+//         {
+//             x: 0,
+//             y: 0,
+//             width: 10000,
+//             height: 20000,
+//             firstSheet: 0,
+//             activeTab: 1,
+//             visibility: 'visible',
+//         },
+//     ];
+//     var worksheet = workbook.addWorksheet('Glovo');
+//     let columns = [];
+//     for (let key of data.keys) {
+//         columns.push({ header: key, key: `_${key}`, width: 100});
+//     }
+//     worksheet.columns = columns;
+
+//     data.forEach((value, key) => {
+//         worksheet.addRow(value);
+//     });
+
+//     return workbook;
+// };

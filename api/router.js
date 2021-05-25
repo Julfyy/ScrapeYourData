@@ -26,7 +26,7 @@ router.post('/scrape/xlsx', (req, res) => {
 
     const url = req.body.url;
 
-    Glovo(url)
+    Glovo(req.body.url)
         .then(file => {
             file.xlsx.write(res)
                 .then(function (_) {

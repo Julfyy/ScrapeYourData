@@ -7,16 +7,35 @@ window.addEventListener('load', async () => {
   const icAccessebility = document.querySelector("#icon-accessibility");
   const txtAccessebility = document.querySelector("#text-accessibility");
   const toolsPanel = document.querySelector("#row-tools");
+  const selectorsColumn = document.querySelector("#col-selectors");
   const btnExcel = document.querySelector("#btn-xlsx");
   const btnTxt = document.querySelector("#btn-txt");
+  const btnAddSelector = document.querySelector("#btn-add-selector");
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   let userId = null;
+  let titleSelectors = [];
+  let elementSelectors = [];
 
   // Get unique user id
   chrome.identity.getProfileUserInfo(userInfo => {
     userId = userInfo.id;
   });
+
+  const getSelectors = () => {
+    let res = [];
+
+    for (let i = 0; i < elementSelectors.length; i++) {
+      if (titleSelectors[i].value !== "" && elementSelectors[i].value !== "") {
+        res.push({
+          title: titleSelectors[i].value,
+          tag: elementSelectors[i].value
+        });
+      }
+    }
+
+    return res;
+  }
 
   const downloadFile = (view) => {
     updateUi('loading');
@@ -37,7 +56,8 @@ window.addEventListener('load', async () => {
       },
       body: JSON.stringify({
         userId,
-        url: tab.url
+        url: tab.url,
+        selectors: getSelectors()
       })
     })
       .then(res => res.blob())
@@ -69,4 +89,28 @@ window.addEventListener('load', async () => {
 
   btnTxt.addEventListener('click', downloadFile)
   btnExcel.addEventListener('click', downloadFile)
+  btnAddSelector.addEventListener('click', () => {
+    const div = document.createElement('div');
+    div.classList.add('selector')
+
+    const inputSelector = document.createElement('input');
+    const titleSelector = document.createElement('input');
+    inputSelector.placeholder = "HTML element";
+    titleSelector.placeholder = "Title";
+    elementSelectors.push(inputSelector);
+    titleSelectors.push(titleSelector);
+
+    const btnRemove = document.createElement('button');
+    btnRemove.textContent = "Remove"
+    btnRemove.addEventListener('click', () => {
+      div.style.display = 'none';
+      elementSelectors.pop();
+      titleSelectors.pop();
+    });
+
+    div.appendChild(inputSelector);
+    div.appendChild(titleSelector);
+    div.appendChild(btnRemove);
+    selectorsColumn.appendChild(div);
+  });
 });

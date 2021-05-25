@@ -1,6 +1,5 @@
 body {
-  width: 300px;
-  height: 200px;
+  width: 400px;
   background-color: #fff;
   text-align: center;
   padding: 16px;
@@ -30,4 +29,28 @@ body {
 .btn-save:hover {
   background-color: #555555;
   color: white;
+}
+
+#btn-add-selector {
+  margin: 10px;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  background-color: white;
+  color: #0d6efd;
+  border: 2px solid #0d6efd;
+  transition-duration: 0.2s;
+  border-radius: 999px;
+}
+
+#btn-add-selector:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.selector {
+  display: block;
+  float: left;
+  padding: 10px;
 }
