@@ -2,6 +2,21 @@ const { Router } = require('express');
 const router = Router();
 const User = require('../models/User.js');
 
+const saveSelectors = (req, res, next) => {
+    const userId = req.body.userId;
+    console.log(req.body)
+    if (typeof req.body.selectors !== 'undefined' && req.body.selectors.length > 0) {
+        console.log("worked")
+        User.findOneAndUpdate({ id: userId }, { selectors: req.body.selectors })
+            .catch(e => {
+                console.error(e)
+                return;
+            });
+    }
+  
+    next();
+  }
+
 router.post('/getSelectors', (req, res) => {
     const userId = req.body.userId;
     const query = User.where({ id: userId });
@@ -43,5 +58,4 @@ router.post('/getSelectors', (req, res) => {
     })
 });
 
-
-module.exports = router;
+module.exports = { router, saveSelectors };

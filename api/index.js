@@ -4,6 +4,7 @@ const server = require('http').createServer(app);
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const mongoose = require("mongoose");
+const User = require('./models/User.js')
 
 const mongoUri = 'mongodb+srv://admin:admin@cluster0.hfluu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
@@ -19,8 +20,11 @@ app.use(cors());
 
 const mainRoutes = require('./routes/main.routes.js');
 const dbRoutes = require('./routes/db.routes.js');
+app.use(dbRoutes.saveSelectors);
 app.use('/', mainRoutes);
-app.use('/user', dbRoutes);
+app.use('/user', dbRoutes.router);
+
+
 
 server.listen(PORT, () => {
     console.log(`Server runs on port ${PORT}`);
