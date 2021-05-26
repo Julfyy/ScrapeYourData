@@ -26,7 +26,7 @@ router.post('/scrape/xlsx', (req, res) => {
 
     const url = req.body.url;
 
-    Glovo(req.body.url)
+    Glovo(req.body)
         .then(file => {
             file.xlsx.write(res)
                 .then(function (_) {
@@ -34,6 +34,7 @@ router.post('/scrape/xlsx', (req, res) => {
                 });
         })
         .catch(e => {
+            console.error(e)
             res.status(400).json({ status: 400, message: "Bad url." });
         });
 });
