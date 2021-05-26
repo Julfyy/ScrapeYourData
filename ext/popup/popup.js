@@ -1,11 +1,13 @@
 const api = {
   urlXlsx: "http://localhost:3000/scrape/xlsx",
-  urlTxt: "http://localhost:3000/scrape/txt"
+  urlTxt: "http://localhost:3000/scrape/txt",
+  urlGetSelectors: "http://localhost:3000/user/getSelectors"
 }
 
 window.addEventListener('load', async () => {
   const icAccessebility = document.querySelector("#icon-accessibility");
   const txtAccessebility = document.querySelector("#text-accessibility");
+  const txtUserInfo = document.querySelector("#user-info");
   const toolsPanel = document.querySelector("#row-tools");
   const selectorsColumn = document.querySelector("#col-selectors");
   const btnExcel = document.querySelector("#btn-xlsx");
@@ -20,6 +22,34 @@ window.addEventListener('load', async () => {
   // Get unique user id
   chrome.identity.getProfileUserInfo(userInfo => {
     userId = userInfo.id;
+
+    txtUserInfo.textContent = userId;
+    fetch(api.urlGetSelectors, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json()
+            .then(json => {
+              for (let selector of json.selectors) {
+                createSelectorView(selector.tag, selector.title);
+              }
+            })
+          updateUi(200)
+        } else {
+          updateUi(400)
+        }
+      })
+      .catch(e => {
+        console.error(e)
+        updateUi(400)
+      });
   });
 
   const getSelectors = () => {
@@ -40,6 +70,12 @@ window.addEventListener('load', async () => {
   const downloadFile = (view) => {
     updateUi('loading');
 
+    const selectors = getSelectors();
+    if (selectors.length < 1) {
+      alert('No selectors added!');
+      return;
+    }
+
     // Configure url
     let url = "";
     if (view.srcElement.id == 'btn-txt') {
@@ -57,7 +93,7 @@ window.addEventListener('load', async () => {
       body: JSON.stringify({
         userId,
         url: tab.url,
-        selectors: getSelectors()
+        selectors
       })
     })
       .then(res => res.blob())
@@ -87,9 +123,7 @@ window.addEventListener('load', async () => {
     }
   }
 
-  btnTxt.addEventListener('click', downloadFile)
-  btnExcel.addEventListener('click', downloadFile)
-  btnAddSelector.addEventListener('click', () => {
+  const createSelectorView = (tag, title) => {
     const div = document.createElement('div');
     div.classList.add('selector')
 
@@ -108,9 +142,23 @@ window.addEventListener('load', async () => {
       titleSelectors.pop();
     });
 
+    if (tag) {
+      inputSelector.value = tag;
+    }
+
+    if (title) {
+      titleSelector.value = title;
+    }
+
     div.appendChild(inputSelector);
     div.appendChild(titleSelector);
     div.appendChild(btnRemove);
     selectorsColumn.appendChild(div);
+  }
+
+  btnTxt.addEventListener('click', downloadFile)
+  btnExcel.addEventListener('click', downloadFile)
+  btnAddSelector.addEventListener('click', () => {
+    createSelectorView()
   });
 });

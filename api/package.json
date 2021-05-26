@@ -27,6 +27,8 @@
     "got": "^11.8.2",
     "himalaya": "^1.1.0",
     "jest": "^26.6.3",
+    "mongodb": "^3.6.8",
+    "mongoose": "^5.12.11",
     "puppeteer": "^9.1.1",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"

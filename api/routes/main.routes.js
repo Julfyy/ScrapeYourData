@@ -1,24 +1,21 @@
-const express = require('express');
-const router = express.Router();
-const Excel = require('exceljs');
+const { Router } = require('express');
+const router = Router();
+const User = require('../models/User.js')
 
-const Glovo = require('./patterns/Glovo.js');
+const Glovo = require('../patterns/Glovo.js');
+  
+const saveSelectors = (req, res, next) => {
+    const userId = req.body.userId;
+    User.findOneAndUpdate({ id: userId }, { selectors: req.body.selectors })
+        .catch(e => {
+            console.error(e)
+            return;
+        });
 
-const isAvailable = function(req, res, next) {
-    const url = req.body.url;
-    
-    if (url.includes('glovo')) {
-        next();
-    } else {
-        res.status(400).json({ status: 400, message: "The website is not parcable." });
-    }
+    next();
 }
 
-router.use(isAvailable);
-  
-router.get('/', (_, res) => {
-  res.send('Server works');
-});
+router.use(saveSelectors);
 
 router.post('/scrape/xlsx', (req, res) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -40,6 +37,8 @@ router.post('/scrape/xlsx', (req, res) => {
 router.post('/scrape/txt', (req, res) => {
     res.setHeader('Content-Type', "application/octet-stream");
     res.setHeader('Content-Disposition', 'attachment; filename=Data.txt');
+
+    console.log(req.body);
 
     Glovo.getTxt(req.body)
         .then(file => {
