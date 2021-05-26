@@ -10,6 +10,12 @@ const getData = async (request) => {
     await page.goto(url);
 
     const data = await page.evaluate((selectors) => {
+        function stripHtml(html) {
+          let tmp = document.createElement('div');
+          tmp.innerHTML = html;
+          return tmp.textContent || tmp.innerText || "";
+        }
+
         const obj = [];
 
         for (let selector of selectors) {
@@ -17,7 +23,7 @@ const getData = async (request) => {
             let content = [];
 
             for (let i = 0; i < elements.length; i++) {
-                content.push(elements[i].innerHTML === undefined ? '' : elements[i].innerHTML.trim());
+                content.push(elements[i].innerHTML === undefined ? '' : stripHtml(elements[i].innerHTML).trim());
             }
 
             obj.push({ key: selector.title, content });

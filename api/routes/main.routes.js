@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const User = require('../models/User.js')
 
-const Glovo = require('../patterns/Glovo.js');
+const Glovo = require('../Parser.js');
   
 const saveSelectors = (req, res, next) => {
     const userId = req.body.userId;
