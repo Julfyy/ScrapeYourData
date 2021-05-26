@@ -3,7 +3,6 @@ const Excel = require('exceljs');
 
 const getData = async (request) => {
     const url = request.url;
-    // const url = 'https://glovoapp.com/pl/pl/warszawa/mother-india-waw/';
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     console.log(url);
@@ -16,7 +15,7 @@ const getData = async (request) => {
           return tmp.textContent || tmp.innerText || "";
         }
 
-        const obj = [];
+        const result = [];
 
         for (let selector of selectors) {
             const elements = document.querySelectorAll(selector.tag);
@@ -26,10 +25,10 @@ const getData = async (request) => {
                 content.push(elements[i].innerHTML === undefined ? '' : stripHtml(elements[i].innerHTML).trim());
             }
 
-            obj.push({ key: selector.title, content });
+            result.push({ key: selector.title, content });
         }
 
-        return obj;
+        return result;
     }, request.selectors);
 
     browser.close();
@@ -72,7 +71,13 @@ const getXlsx = async (request) => {
             visibility: 'visible',
         },
     ];
-    let worksheet = workbook.addWorksheet('Glovo');
+    let worksheet = workbook.addWorksheet('Sheet1');
+
+    let columns = [];
+    for (let i = 0; i < data.length; i++) {
+      columns.push({ header: data[i].key, key: `${i}`, width: 70});
+    }
+    worksheet.columns = columns;
 
     let formattedData = [];
     const maxSize = findMaxColumnSize(data);
@@ -83,12 +88,6 @@ const getXlsx = async (request) => {
       }
       formattedData.push(row);
     }
-
-    let columns = [];
-    for (let i = 0; i < data.length; i++) {
-      columns.push({ header: data[i].key, key: `${i}`, width: 100});
-    }
-    worksheet.columns = columns;
 
     for (let row of formattedData) {
       let endRow = {};
@@ -123,7 +122,7 @@ const getTxt = async (request) => {
     let endRow = `${i}. `;
     for (let item of row) {
       if (item != '')
-        endRow += `| ${item} |`
+        endRow += `${item} |`
     }
     i++
     file += `\n${endRow}`

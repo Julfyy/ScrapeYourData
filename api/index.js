@@ -4,7 +4,6 @@ const server = require('http').createServer(app);
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const mongoose = require("mongoose");
-const User = require('./models/User.js')
 
 const mongoUri = 'mongodb+srv://admin:admin@cluster0.hfluu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 

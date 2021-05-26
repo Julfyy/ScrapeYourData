@@ -28,6 +28,10 @@ router.post('/scrape/txt', (req, res) => {
         .then(file => {
             res.send(file);
         })
+        .catch(e => {
+            console.error(e)
+            res.status(400).json({ status: 400, message: "Bad url." });
+        });
 });
 
 module.exports = router;

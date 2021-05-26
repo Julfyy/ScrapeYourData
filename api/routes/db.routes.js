@@ -6,7 +6,6 @@ const saveSelectors = (req, res, next) => {
     const userId = req.body.userId;
     console.log(req.body)
     if (typeof req.body.selectors !== 'undefined' && req.body.selectors.length > 0) {
-        console.log("worked")
         User.findOneAndUpdate({ id: userId }, { selectors: req.body.selectors })
             .catch(e => {
                 console.error(e)
@@ -37,7 +36,7 @@ router.post('/getSelectors', (req, res) => {
             });
         } else {
             const newUser = new User({
-                id: req.body.userId
+                id: userId
             })
 
             newUser.save()
