@@ -22,11 +22,9 @@ router.get('/', (_, res) => {
 
 router.post('/scrape/xlsx', (req, res) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader("Content-Disposition", "attachment; filename=" + "Data.xlsx");
+    res.setHeader("Content-Disposition", "attachment; filename=Data.xlsx");
 
-    const url = req.body.url;
-
-    Glovo(req.body)
+    Glovo.getXlsx(req.body)
         .then(file => {
             file.xlsx.write(res)
                 .then(function (_) {
@@ -40,24 +38,13 @@ router.post('/scrape/xlsx', (req, res) => {
 });
 
 router.post('/scrape/txt', (req, res) => {
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader("Content-Disposition", "attachment; filename=" + "Data.xlsx");
+    res.setHeader('Content-Type', "application/octet-stream");
+    res.setHeader('Content-Disposition', 'attachment; filename=Data.txt');
 
-    console.log(req.body)
-
-    var workbook = new Excel.Workbook();
-    var worksheet = workbook.addWorksheet('My Sheet');
-    worksheet.columns = [
-        { header: 'Id', key: 'id', width: 10 },
-        { header: 'Name', key: 'name', width: 32 },
-        { header: 'D.O.B.', key: 'DOB', width: 10 }
-    ];
-    worksheet.addRow({id: 1, name: 'John Doe', dob: new Date(1970,1,1)});
-    worksheet.addRow({id: 2, name: 'Jane Doe', dob: new Date(1965,1,7)});
-    workbook.xlsx.write(res)
-                .then(function (_) {
-                    res.end();
-                });
+    Glovo.getTxt(req.body)
+        .then(file => {
+            res.send(file);
+        })
 });
 
 module.exports = router;

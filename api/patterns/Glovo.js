@@ -2,7 +2,6 @@ const puppeteer = require('puppeteer');
 const Excel = require('exceljs');
 
 const getData = async (request) => {
-    // console.log(request)
     const url = request.url;
     // const url = 'https://glovoapp.com/pl/pl/warszawa/mother-india-waw/';
     const browser = await puppeteer.launch({ headless: true });
@@ -44,7 +43,7 @@ const findMaxColumnSize = (data) => {
   return max;
 }
 
-module.exports = async (request) => {
+const getXlsx = async (request) => {
     const data = await getData(request);
 
     let workbook = new Excel.Workbook();
@@ -85,7 +84,6 @@ module.exports = async (request) => {
     }
     worksheet.columns = columns;
 
-    console.log(columns)
     for (let row of formattedData) {
       let endRow = {};
       let i = 0;
@@ -99,3 +97,36 @@ module.exports = async (request) => {
 
     return workbook;
 };
+
+const getTxt = async (request) => {
+  const data = await getData(request);
+  let formattedData = [];
+
+  const maxSize = findMaxColumnSize(data);
+  for (let i = 0; i < maxSize; i++) {
+    let row = [];
+    for (let elem of data) {
+      row.push(elem.content[i] === undefined ? '' : elem.content[i]);
+    }
+    formattedData.push(row);
+  }
+
+  let file = "";
+  let i = 1;
+  for (let row of formattedData) {
+    let endRow = `${i}. `;
+    for (let item of row) {
+      if (item != '')
+        endRow += `| ${item} |`
+    }
+    i++
+    file += `\n${endRow}`
+  }
+
+  return file;
+}
+
+module.exports = {
+  getXlsx,
+  getTxt
+}
