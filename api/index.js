@@ -4,10 +4,9 @@ const server = require('http').createServer(app);
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const mongoose = require("mongoose");
+require('dotenv').config();
 
-const mongoUri = 'mongodb+srv://admin:admin@cluster0.hfluu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
 
@@ -22,8 +21,6 @@ const dbRoutes = require('./routes/db.routes.js');
 app.use(dbRoutes.saveSelectors);
 app.use('/', mainRoutes);
 app.use('/user', dbRoutes.router);
-
-
 
 server.listen(PORT, () => {
     console.log(`Server runs on port ${PORT}`);
