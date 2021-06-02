@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const router = Router();
 
-const Parser = require('../Parser.js');
+const { getXlsx, getTxt } = require('../Parser.js');
 
 router.post('/scrape/xlsx', (req, res) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader("Content-Disposition", "attachment; filename=Data.xlsx");
 
-    Parser.getXlsx(req.body)
+    getXlsx(req.body)
         .then(file => {
             file.xlsx.write(res)
                 .then(function (_) {
@@ -24,7 +24,7 @@ router.post('/scrape/txt', (req, res) => {
     res.setHeader('Content-Type', "application/octet-stream");
     res.setHeader('Content-Disposition', 'attachment; filename=Data.txt');
 
-    Parser.getTxt(req.body)
+    getTxt(req.body)
         .then(file => {
             res.send(file);
         })

@@ -1,11 +1,12 @@
 const puppeteer = require('puppeteer');
 const Excel = require('exceljs');
 
+const { findMaxColumnSize } = require('./utils/arrayUtils')
+
 const getData = async (request) => {
     const url = request.url;
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    console.log(url);
     await page.goto(url);
 
     const data = await page.evaluate((selectors) => {
@@ -32,21 +33,8 @@ const getData = async (request) => {
     }, request.selectors);
 
     browser.close();
-    console.log(data);
     return data;
 };
-
-const findMaxColumnSize = (data) => {
-  let max = data[0].content.length;
-
-  for (let col of data) {
-    if (max < col.content.length) {
-      max = col.content.length;
-    }
-  }
-
-  return max;
-}
 
 const getXlsx = async (request) => {
     const data = await getData(request);
@@ -96,7 +84,7 @@ const getXlsx = async (request) => {
         const jsonItem = JSON.parse(`{ "${i++}": "${item}" }`)
         Object.assign(endRow, jsonItem)
       }
-      console.log(endRow)
+      
       worksheet.addRow(endRow);
     }
 
