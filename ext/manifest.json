@@ -4,13 +4,16 @@
   "version": "1.0.0",
   "manifest_version": 3,
 
-  "background": {
-    "service_worker": "background.js"
-  },
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": "img/icon.png"
   },
 
-  "permissions": ["storage", "activeTab", "scripting", "identity", "identity.email"]
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "identity",
+    "identity.email"
+  ]
 }
