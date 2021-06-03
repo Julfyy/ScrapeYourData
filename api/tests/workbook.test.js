@@ -1,4 +1,5 @@
 const data = require('./data');
+const formattedData = require('./formatData');
 
 const { initWorkBook, setColumns, formatData, createRowFromArray } = require('../utils/workbookUtils');
 
@@ -16,7 +17,7 @@ describe('Workbook data input test', () => {
 
     test('Data is formatted', async () => {
         const result = formatData(data);
-        expect(result === []).toBeFalsy();
+        expect(result === formattedData)
     });
 
     test('Finally rows are ready', async () => {

@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 
 const { setColumns, formatData, createRowFromArray, initWorkBook } = require('./utils/workbookUtils');
 const { findMaxColumnSize } = require('./utils/arrayUtils');
+const fs = require('fs');
 
 const getData = async (request) => {
   const url = request.url;
@@ -55,6 +56,9 @@ const getXlsx = async (request) => {
 
   // Format exicting data
   let formattedData = formatData(data);
+  fs.writeFile('bla.json', JSON.stringify(formattedData), 'utf8', () => {
+    console.log('done')
+  })
 
   // Push data row by row
   for (let row of formattedData) {
@@ -90,6 +94,19 @@ const getTxt = async (request) => {
 
   return file;
 };
+
+async function hello() {
+  await getXlsx({
+    url: 'https://glovoapp.com/pl/pl/warszawa/domino-s-pizza-waw1/pizze_50302694/',
+    selectors: [
+        { title: 'title', tag: 'h4.title' },
+        { title: 'description', tag: 'div.description' },
+        { title: 'price', tag: 'div.product-price' }
+    ]
+})
+}
+
+hello()
 
 module.exports = {
   getXlsx,

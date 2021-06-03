@@ -1,14 +1,14 @@
-const api = {
-  urlXlsx: 'http://localhost:3000/scrape/xlsx',
-  urlTxt: 'http://localhost:3000/scrape/txt',
-  urlGetSelectors: 'http://localhost:3000/user/getSelectors',
-};
-
 // const api = {
-//   urlXlsx: 'https://scrape-your-data.herokuapp.com/scrape/xlsx',
-//   urlTxt: 'https://scrape-your-data.herokuapp.com/scrape/txt',
-//   urlGetSelectors: 'https://scrape-your-data.herokuapp.com/user/getSelectors',
+//   urlXlsx: 'http://localhost:3000/scrape/xlsx',
+//   urlTxt: 'http://localhost:3000/scrape/txt',
+//   urlGetSelectors: 'http://localhost:3000/user/getSelectors',
 // };
+
+const api = {
+  urlXlsx: 'https://scrape-your-data.herokuapp.com/scrape/xlsx',
+  urlTxt: 'https://scrape-your-data.herokuapp.com/scrape/txt',
+  urlGetSelectors: 'https://scrape-your-data.herokuapp.com/user/getSelectors',
+};
 
 window.addEventListener('load', async () => {
   const icAccessebility = document.querySelector('#icon-accessibility');
